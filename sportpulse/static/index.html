@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8f9fb">
+  <meta name="description" content="PitchPulse AI — talk cricket, football and sports news with sources.">
+  <title>PitchPulse AI | Your sports conversation</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+<div class="layout" id="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Navigation and sports sources">
+    <div class="side-top">
+      <div class="brand"><span class="brand-symbol">P<span class="brand-dot">.</span></span><span>PitchPulse <b>AI</b></span></div>
+      <button type="button" id="closeSidebar" class="icon-btn close-side" title="Close navigation" aria-label="Close navigation">✕</button>
+    </div>
+    <button id="newChat" class="new-chat" type="button"><span>＋</span> New conversation</button>
+    <div class="side-group"><div class="side-label">EXPLORE</div>
+      <button class="side-link active" data-sport="all" type="button"><span>◈</span> All sports</button>
+      <button class="side-link" data-sport="cricket" type="button"><span>◉</span> Cricket</button>
+      <button class="side-link" data-sport="football" type="button"><span>⬡</span> Football</button>
+    </div>
+    <div class="side-group"><div class="side-label">QUICK QUESTIONS</div>
+      <button class="side-link" type="button" data-prompt="Explain DRS in cricket in simple terms"><span>↗</span> Explain DRS</button>
+      <button class="side-link" type="button" data-prompt="Explain the offside rule with an example"><span>↗</span> Football offside</button>
+      <button class="side-link" type="button" data-prompt="Give me the latest cricket news, with sources"><span>↗</span> Cricket briefing</button>
+      <button class="side-link" type="button" data-prompt="What are today's football results? Only confirmed scores"><span>↗</span> Football scores</button>
+    </div>
+    <div class="side-bottom"><div id="sidebarMode" class="side-mode">Checking your setup…</div>
+      <small>Local-first app. Chats are not saved to disk.</small></div>
+  </aside>
+  <button class="scrim" id="scrim" type="button" aria-label="Close navigation"></button>
+  <div class="main-pane">
+    <header class="topbar">
+      <div class="header-start"><button class="icon-btn mobile-menu" id="openSidebar" type="button" title="Open navigation" aria-label="Open navigation">☰</button>
+        <div class="title-area"><strong>PitchPulse <span>AI</span></strong><small>Cricket · Football · Your sports desk</small></div></div>
+      <div class="top-actions"><span id="modelStatus" class="model-chip" title="Backend status"><span class="status-point"></span> Connecting…</span>
+        <button id="sourcesToggle" type="button" class="top-button" aria-expanded="false" aria-controls="explorePanel">Explore <span class="explore-arrow">↗</span></button></div>
+    </header>
+    <div class="workspace">
+      <main class="chat-column" aria-label="Sports AI chat">
+        <div class="chat-scroll" id="chatScroll">
+          <section class="welcome" id="welcome"><div class="welcome-logo">✦</div>
+            <h1>What's happening in sports?</h1>
+            <p>Ask about cricket, football, tactics, players or the latest headlines. You can type or speak.</p>
+            <div class="starter-grid">
+              <button type="button" class="starter" data-prompt="Give me a quick cricket news briefing with sources"><span>🏏</span><strong>Cricket briefing</strong><small>News and match updates</small></button>
+              <button type="button" class="starter" data-prompt="What's new in football today? Cite the sources you have"><span>⚽</span><strong>Football today</strong><small>Fresh headlines</small></button>
+              <button type="button" class="starter" data-prompt="Explain DRS like I'm new to cricket"><span>✦</span><strong>Understand DRS</strong><small>Learn the rules</small></button>
+              <button type="button" class="starter" data-prompt="Compare the roles of a cricket captain and a football manager"><span>◎</span><strong>Ask something deeper</strong><small>AI sports explanations</small></button>
+            </div>
+          </section>
+          <div id="conversation" class="conversation" role="log" aria-label="Messages" aria-live="polite" aria-relevant="additions"></div>
+        </div>
+        <div class="composer-zone">
+          <div id="micWarning" class="inline-alert" role="status" hidden></div>
+          <div class="voice-live" id="voiceLive" hidden><span class="pulse"></span><span id="voiceLiveText">Listening…</span><button type="button" id="cancelVoice" class="mini-link">Cancel</button></div>
+          <form id="chatForm" class="composer"><label for="chatInput" class="sr-only">Your sports question</label>
+            <textarea id="chatInput" rows="1" maxlength="750" placeholder="Message PitchPulse AI…" aria-label="Type a sports question. Enter to send, Shift+Enter for a new line."></textarea>
+            <div class="composer-actions"><div class="composer-left">
+              <button class="tool-button mic-btn" id="micButton" type="button" aria-label="Start voice question" title="Speak a question">🎙 <span>Voice</span></button>
+              <select id="langSelect" class="language" aria-label="Language"><option value="en-IN">English (IN)</option><option value="hi-IN">Hindi / Hinglish</option><option value="en-US">English (US)</option></select>
+              <button class="tool-button speech-btn" id="soundToggle" type="button" title="Toggle spoken answers" aria-pressed="true">🔊 <span>Read aloud</span></button>
+            </div><button id="sendButton" class="send-btn" type="submit" title="Send message" aria-label="Send message">↑</button></div>
+          </form>
+          <div class="below-composer"><span id="statusLabel" role="status">Ready to chat</span><span class="right-preferences"><label title="Automatically send recognized questions"><input type="checkbox" id="autoSendVoice"> Auto-send voice</label><button type="button" id="micTestButton" class="small-action">Test microphone</button><button type="button" id="stopSpeaking" class="small-action">Stop audio</button></span></div>
+          <p class="fine-print">Scores depend on connected data providers and may be delayed. Verify critical match details in the linked sources.</p>
+        </div>
+      </main>
+      <aside class="explore-panel" id="explorePanel" aria-label="Current sports information" hidden>
+        <div class="panel-heading"><div><small>THE SPORTS DESK</small><h2>Explore</h2></div><button type="button" id="closeExplore" class="icon-btn" aria-label="Close explore panel">✕</button></div>
+        <div class="panel-section"><div class="section-heading"><h3>Headlines</h3><button type="button" id="refreshNews" class="small-action">↻ Refresh</button></div>
+          <div id="newsList" class="news-list" aria-live="polite"><div class="loading-lines">Loading news…</div></div><p id="newsFoot" class="panel-footnote">Source-linked news</p></div>
+        <div class="panel-section"><div class="section-heading"><h3>Match center</h3><div class="match-switch" role="group" aria-label="Match sport"><button type="button" class="match-tab active" data-matchsport="cricket">Cricket</button><button type="button" class="match-tab" data-matchsport="football">Football</button></div></div>
+          <div id="matchList" class="match-list" aria-live="polite"><div class="loading-lines">Loading matches…</div></div><p id="matchFoot" class="panel-footnote">Waiting for sports provider</p><p id="matchUpdated" class="panel-footnote"></p></div>
+      </aside>
+    </div>
+  </div>
+</div>
+</body>
+</html>
